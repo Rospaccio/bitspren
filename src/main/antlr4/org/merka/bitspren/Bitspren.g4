@@ -1,20 +1,41 @@
 grammar Bitspren;
 
-program : (terminatedStatement)* lastStatement ;
+program  		
+		: (terminatedStatement)+ ;
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
-lastStatement : statement EOF ;
+lastStatement : statement ;
 
 statement 
-	: functionDefinition
-	| function ;
+	: functionDefinition ;
 
-functionDefinition : IDENTIFIER FUNCTION_DEFINTION_OP function ;
+functionDefinition 
+					: IDENTIFIER FUNCTION_DEFINTION_OP function 			#PlainFunction
+					/*| IDENTIFIER FUNCTION_DEFINTION_OP functionApplication 	#CompositeFuction */;
 
-function : IDENTIFIER LEFT_BRACKET independentVariable RIGHT_BRACKET ;
+function : polinomy ;
+
+polinomy
+		: polinomy ('*' | '/' | '%') polinomy  
+		| polinomy ('+' | '-') polinomy
+		| basicFunction;
+
+basicFunction 
+				: independentVariable 
+				| NUMBER_LITERAL
+				| '(' function ')' 
+				| functionApplication ;
+
+functionApplication
+					: IDENTIFIER '(' function ')'
+					| IDENTIFIER '(' functionApplication ')' ;
 
 independentVariable : IDENTIFIER;
+
+NUMBER_LITERAL : NUMBER ('.'NUMBER)?;
+
+NUMBER : [0-9]+ ;
 
 IDENTIFIER : IDENTIFIER_START_CHAR IDENTIFIER_FOLLOWING_CHAR*;
 
@@ -28,13 +49,11 @@ IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
 FUNCTION_DEFINTION_OP : '=' ;
 
 STATEMENT_TERMINATOR
-					: EOF
-					| ';' (NEW_LINE)*
-					| NEW_LINE (NEW_LINE)* ;
+					: ';' ;
+					
+// NEW_LINE : '\r\n' ;
 
-NEW_LINE : '\r\n' ;
-
-WS : [ \t]+ -> skip ; // skip spaces, tabs, newlines ;
+WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines ;
 
 COMMENT
     :   '/*' .*? '*/' -> skip

@@ -1,22 +1,19 @@
 grammar Separator;
 
-program : (terminatedStatement)* lastStatement ;
+program 
+		: statement EOF
+		| (terminatedStatement)+ EOF 
+		| (terminatedStatement)+ statement EOF;
 
-lastStatement : statement EOF ;
+// lastStatement : statement ;
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
 statement : 'a' ;
 
 STATEMENT_TERMINATOR
-					: EOF
-					| ';' (NEW_LINE)*
+					: ';' (NEW_LINE)*
 					| NEW_LINE (NEW_LINE)* ;
-
-STATEMENT_SEPARATOR 
-					: NEW_LINE* 
-					| ';' NEW_LINE+
-					| ';' ;
 
 NEW_LINE : '\r\n' ;
 

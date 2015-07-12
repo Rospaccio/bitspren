@@ -17,7 +17,16 @@ import org.merka.bitspren.BitsprenParser.ProgramContext;
 
 public class BitsprenParserTest
 {
-	public static final String HARCODED_DEFAULT_PROGRAM = "testFunction(x)";
+	public static final String HARCODED_DEFAULT_PROGRAM = "f = testFunction(x) + 4;";
+	
+	public static final String[] validStrings = 
+	{
+		"testFunction = x",
+		"f = x;" + System.lineSeparator(),
+		"f = g(d(x));",
+		"f = x+3*2-4",
+		"f = x + 12 * g(3 + x)"
+	};
 	
 	@Test
 	public void testParseHardcoded() throws IOException
@@ -30,7 +39,7 @@ public class BitsprenParserTest
 		parser.addErrorListener(listener);
 		ProgramContext rootNode = parser.program();
 		assertNotNull(rootNode);
-		assertFalse(listener.isFail());
+		assertFalse(HARCODED_DEFAULT_PROGRAM, listener.isFail());
 	}
 
 }
