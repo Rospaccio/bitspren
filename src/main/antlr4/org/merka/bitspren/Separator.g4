@@ -1,11 +1,17 @@
 grammar Separator;
 
-program : statement EOF
-		| statement STATEMENT_SEPARATOR EOF
-		| (statement STATEMENT_SEPARATOR) statement EOF
-		| (statement STATEMENT_SEPARATOR) EOF;
+program : (terminatedStatement)* lastStatement ;
+
+lastStatement : statement EOF ;
+
+terminatedStatement : statement STATEMENT_TERMINATOR ;
 
 statement : 'a' ;
+
+STATEMENT_TERMINATOR
+					: EOF
+					| ';' (NEW_LINE)*
+					| NEW_LINE (NEW_LINE)* ;
 
 STATEMENT_SEPARATOR 
 					: NEW_LINE* 

@@ -1,6 +1,10 @@
 grammar Bitspren;
 
-program : (statement STATEMENT_SEPARATOR)+ ;
+program : (terminatedStatement)* lastStatement ;
+
+terminatedStatement : statement STATEMENT_TERMINATOR ;
+
+lastStatement : statement EOF ;
 
 statement 
 	: functionDefinition
@@ -23,11 +27,10 @@ IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
 
 FUNCTION_DEFINTION_OP : '=' ;
 
-STATEMENT_SEPARATOR 
-					: NEW_LINE* 
-					| ';' NEW_LINE+
-					| ';' 
-					| EOF ;
+STATEMENT_TERMINATOR
+					: EOF
+					| ';' (NEW_LINE)*
+					| NEW_LINE (NEW_LINE)* ;
 
 NEW_LINE : '\r\n' ;
 
