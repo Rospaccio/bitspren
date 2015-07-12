@@ -11,9 +11,9 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LanguageTestErrorListener implements ANTLRErrorListener
+public class BitsprenErrorListener implements ANTLRErrorListener
 {
-	private static final Logger logger = LoggerFactory.getLogger(LanguageTestErrorListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(BitsprenErrorListener.class);
 	private boolean	fail	= false;
 
 	public boolean isFail()

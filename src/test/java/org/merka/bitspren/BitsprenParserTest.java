@@ -17,7 +17,7 @@ import org.merka.bitspren.BitsprenParser.ProgramContext;
 
 public class BitsprenParserTest
 {
-	public static final String HARCODED_DEFAULT_PROGRAM = "f = testFunction(x) + 4;";
+	public static final String HARCODED_DEFAULT_PROGRAM = "f = testFunction(x) + 4";
 	
 	public static final String[] validStrings = 
 	{
@@ -35,7 +35,7 @@ public class BitsprenParserTest
 		TokenSource tokenSource = new BitsprenLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(tokenSource);
 		BitsprenParser parser = new BitsprenParser(tokenStream);
-		LanguageTestErrorListener listener = new LanguageTestErrorListener();
+		BitsprenErrorListener listener = new BitsprenErrorListener();
 		parser.addErrorListener(listener);
 		ProgramContext rootNode = parser.program();
 		assertNotNull(rootNode);

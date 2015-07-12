@@ -1,18 +1,20 @@
 grammar Bitspren;
 
 program  		
-		: (terminatedStatement)+ ;
+		: statement EOF
+		| (terminatedStatement)+ EOF 
+		| (terminatedStatement)+ statement EOF;
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
 lastStatement : statement ;
 
 statement 
-	: functionDefinition ;
+			: functionDefinition 
+			| functionApplication;
 
 functionDefinition 
-					: IDENTIFIER FUNCTION_DEFINTION_OP function 			#PlainFunction
-					/*| IDENTIFIER FUNCTION_DEFINTION_OP functionApplication 	#CompositeFuction */;
+					: IDENTIFIER FUNCTION_DEFINTION_OP function ;
 
 function : polinomy ;
 
@@ -49,11 +51,12 @@ IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
 FUNCTION_DEFINTION_OP : '=' ;
 
 STATEMENT_TERMINATOR
-					: ';' ;
-					
-// NEW_LINE : '\r\n' ;
+					: ';' (NEW_LINE)*
+					| NEW_LINE+ ;
 
-WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines ;
+NEW_LINE : '\r\n' ;
+
+WS : [ \t]+ -> skip ; // skip spaces, tabs, newlines ;
 
 COMMENT
     :   '/*' .*? '*/' -> skip
