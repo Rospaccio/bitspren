@@ -15,6 +15,40 @@ public class BitsprenErrorListener implements ANTLRErrorListener
 {
 	private static final Logger logger = LoggerFactory.getLogger(BitsprenErrorListener.class);
 	private boolean	fail	= false;
+	
+	private int lineNumber;
+	private int characterPosition;
+	private String message;
+
+	protected int getLineNumber()
+	{
+		return lineNumber;
+	}
+
+	protected void setLineNumber(int lineNumber)
+	{
+		this.lineNumber = lineNumber;
+	}
+
+	protected int getCharacterPosition()
+	{
+		return characterPosition;
+	}
+
+	protected void setCharacterPosition(int characterPosition)
+	{
+		this.characterPosition = characterPosition;
+	}
+
+	protected String getMessage()
+	{
+		return message;
+	}
+
+	protected void setMessage(String message)
+	{
+		this.message = message;
+	}
 
 	public boolean isFail()
 	{
@@ -27,9 +61,10 @@ public class BitsprenErrorListener implements ANTLRErrorListener
 	}
 
 	@Override
-	public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4,
+	public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int lineNumber, int characterPosition, String message,
 			RecognitionException arg5)
 	{
+		setErrorDetails(lineNumber, characterPosition, message);
 		setFail(true);
 	}
 
@@ -44,9 +79,7 @@ public class BitsprenErrorListener implements ANTLRErrorListener
 	public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4,
 			ATNConfigSet arg5)
 	{
-		logger.debug(arg1.toString());
-		logger.debug("" + arg2);
-		logger.debug("" + arg3);
+		setErrorDetails(arg2, arg3, "");
 		setFail(true);
 	}
 
@@ -56,5 +89,12 @@ public class BitsprenErrorListener implements ANTLRErrorListener
 	{
 		logger.debug(arg6.getAlts().toString());
 		setFail(true);
+	}
+	
+	private void setErrorDetails(int line, int position, String message)
+	{
+		setLineNumber(line);
+		setCharacterPosition(position);
+		setMessage(message);
 	}
 }

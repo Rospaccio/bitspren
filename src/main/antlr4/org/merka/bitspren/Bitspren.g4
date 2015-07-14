@@ -14,12 +14,12 @@ statement
 			| functionApplication;
 
 functionDefinition 
-					: IDENTIFIER FUNCTION_DEFINTION_OP function ;
+					: IDENTIFIER FUNCTION_DEFINTION_OP function				;
 
 function : polinomy ;
 
 polinomy
-		: polinomy ('^') polinomy				#ExponentialRule
+		: <assoc=right> polinomy ('^') polinomy				#ExponentialRule
 		| polinomy ('*' | '/' | '%') polinomy  	#MultiplicationRule
 		| polinomy ('+' | '-') polinomy			#SumRule
 		| basicFunction							#BasicFunctionRule ;
@@ -34,8 +34,7 @@ basicFunction
 javaMethodCall : IDENTIFIER '.' functionApplication ;
 
 functionApplication
-					: IDENTIFIER '(' actualParameters? ')'
-					| IDENTIFIER '(' functionApplication ')' ;
+					: IDENTIFIER '(' actualParameters? ')' ;
 
 actualParameters : function (',' function)* ;
 
