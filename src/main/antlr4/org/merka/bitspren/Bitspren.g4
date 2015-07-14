@@ -19,19 +19,25 @@ functionDefinition
 function : polinomy ;
 
 polinomy
-		: polinomy ('*' | '/' | '%') polinomy  
-		| polinomy ('+' | '-') polinomy
-		| basicFunction;
+		: polinomy ('^') polinomy				#ExponentialRule
+		| polinomy ('*' | '/' | '%') polinomy  	#MultiplicationRule
+		| polinomy ('+' | '-') polinomy			#SumRule
+		| basicFunction							#BasicFunctionRule ;
 
 basicFunction 
-				: independentVariable 
-				| NUMBER_LITERAL
-				| '(' function ')' 
-				| functionApplication ;
+				: independentVariable 								#IndependentVariableRule
+				| NUMBER_LITERAL									#NumberLiteralRule
+				| javaMethodCall									#JavaMethodCallRule
+				| '(' function ')' 									#EmbeddedFunctionRule
+				| functionApplication 								#FunctionApplicationRule;
+
+javaMethodCall : IDENTIFIER '.' functionApplication ;
 
 functionApplication
-					: IDENTIFIER '(' function ')'
+					: IDENTIFIER '(' actualParameters? ')'
 					| IDENTIFIER '(' functionApplication ')' ;
+
+actualParameters : function (',' function)* ;
 
 independentVariable : IDENTIFIER;
 
@@ -44,6 +50,9 @@ IDENTIFIER : IDENTIFIER_START_CHAR IDENTIFIER_FOLLOWING_CHAR*;
 LEFT_BRACKET : '(' ;
 RIGHT_BRACKET : ')' ;
 X_VAR : 'x' ;
+SIN_KEYWORD : 'sin' | 'sen' ;
+COSINE_KEYWORD : 'cos' ;
+EXP_KEYWORD : 'exp' | 'e' ;
 
 IDENTIFIER_START_CHAR : [a-zA-Z$_] ;
 IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
