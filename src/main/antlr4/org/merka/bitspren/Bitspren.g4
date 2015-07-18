@@ -1,17 +1,17 @@
 grammar Bitspren;
 
 program  		
-		: statement EOF
-		| (terminatedStatement)+ EOF 
-		| (terminatedStatement)+ statement EOF;
+		: statement EOF								#SingleLineProgramRule
+		| (terminatedStatement)+ EOF 				#MultiLineProgramRule
+		| (terminatedStatement)+ statement EOF		#MultiLinePlusEOFProgramRule;
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
 lastStatement : statement ;
 
 statement 
-			: functionDefinition 
-			| functionApplication;
+			: functionDefinition 	#FunctionDefinitionStatementRule
+			| functionApplication	#FunctionApplicationStatementRule;
 
 functionDefinition 
 					: IDENTIFIER FUNCTION_DEFINTION_OP function				;
@@ -19,7 +19,7 @@ functionDefinition
 function : polinomy ;
 
 polinomy
-		: <assoc=right> polinomy ('^') polinomy				#ExponentialRule
+		: <assoc=right> polinomy ('^') polinomy	#ExponentialRule
 		| polinomy ('*' | '/' | '%') polinomy  	#MultiplicationRule
 		| polinomy ('+' | '-') polinomy			#SumRule
 		| basicFunction							#BasicFunctionRule ;
@@ -59,8 +59,8 @@ IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
 FUNCTION_DEFINTION_OP : '=' ;
 
 STATEMENT_TERMINATOR
-					: ';' (NEW_LINE)*
-					| NEW_LINE+ ;
+					: ';' ([ ]* NEW_LINE)*
+					| NEW_LINE ([ ]* NEW_LINE)* ;
 
 NEW_LINE : '\r\n' ;
 

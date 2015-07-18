@@ -30,24 +30,24 @@ public class BitsprenParserTest
 	private static Logger			logger						= LoggerFactory
 																		.getLogger(BitsprenParser.class);
 
-	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x"; /*
-+ "function = 2*x                                      "
-+ "function = 2 + 3 + x + clientY;                     "
-+ "sum = x + sum(x - 1);                               "
-+ "sum = x ^ (f(12 - x * 2) + x ^ 2) - 13              "
-+ "testFunction = 3 + 2 + 1 - 5 - 4 / 2 % 3 - (1 + 2 );"
-+ "d(89)                                               "
-+ "$d = d(x(x + 1))                                    "
-+ "                                                    "
-+ "                                                    "
-+ "fibonacci = fibonacci(x - 1) + fibonacci(x - 2);    "
-+ "decrease = x - 1;                                   "
-+ "decrease(2);                                        "
-+ "decrease(x(s(1)));                                  "
-+ "                                                    "
-+ "function = f(s, r)                                  "
-+ "                                                    "
-+ "quit();                                             ";*/
+	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;" + System.lineSeparator()
++ " function = 2*x                                      ;" + System.lineSeparator()
++ " function = 2 + 3 + x + clientY;                     " + System.lineSeparator()
++ " sum = x + sum(x - 1);                               " + System.lineSeparator()
++ " sum = x ^ (f(12 - x * 2) + x ^ 2) - 13              " + System.lineSeparator()
++ " testFunction = 3 + 2 + 1 - 5 - 4 / 2 % 3 - (1 + 2 );" + System.lineSeparator()
++ " d(89)                                               " + System.lineSeparator()
++ " $d = d(x(x + 1))                                    " + System.lineSeparator()
++ "                                                     " + System.lineSeparator()
++ "                                                     " + System.lineSeparator()
++ " fibonacci = fibonacci(x - 1) + fibonacci(x - 2);    " + System.lineSeparator()
++ " decrease = x - 1;                                   " + System.lineSeparator()
++ " decrease(2);                                        " + System.lineSeparator()
++ " decrease(x(s(1)));                                  " + System.lineSeparator()
++ "                                                     " + System.lineSeparator()
++ " function = f(s, r)                                  " + System.lineSeparator()
++ "                                                     " + System.lineSeparator()
++ " quit();                                             "/**/;
 
 	public static final String[]	validStrings				= { "testFunction = x",
 			"f = x;" + System.lineSeparator(), "f = g(d(x));", "f = x+3*2-4",
