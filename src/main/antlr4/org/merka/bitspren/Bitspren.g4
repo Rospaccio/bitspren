@@ -3,7 +3,7 @@ grammar Bitspren;
 program  		
 		: statement EOF								#SingleLineProgramRule
 		| (terminatedStatement)+ EOF 				#MultiLineProgramRule
-		| (terminatedStatement)+ statement EOF		#MultiLinePlusEOFProgramRule;
+		| (terminatedStatement)+ statement EOF		#MultiLinePlusEOFProgramRule ;
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
@@ -11,10 +11,10 @@ lastStatement : statement ;
 
 statement 
 			: functionDefinition 	#FunctionDefinitionStatementRule
-			| functionApplication	#FunctionApplicationStatementRule;
+			| functionApplication	#FunctionApplicationStatementRule ;
 
 functionDefinition 
-					: IDENTIFIER FUNCTION_DEFINTION_OP function				;
+					: IDENTIFIER /*formalParameters*/ FUNCTION_DEFINTION_OP function ;
 
 function : polinomy ;
 
@@ -35,6 +35,10 @@ javaMethodCall : IDENTIFIER '.' functionApplication ;
 
 functionApplication
 					: IDENTIFIER '(' actualParameters? ')' ;
+
+formalParameters 
+					: LEFT_BRACKET IDENTIFIER (',' IDENTIFIER)* RIGHT_BRACKET 
+					| LEFT_BRACKET RIGHT_BRACKET;
 
 actualParameters : function (',' function)* ;
 
@@ -58,13 +62,13 @@ IDENTIFIER_FOLLOWING_CHAR : [a-zA-Z0-9$_] ;
 
 FUNCTION_DEFINTION_OP : '=' ;
 
-STATEMENT_TERMINATOR
-					: ';' ([ ]* NEW_LINE)*
-					| NEW_LINE ([ ]* NEW_LINE)* ;
+STATEMENT_TERMINATOR : ';' ;
+					/* : ';' ([ ]* NEW_LINE)*
+					| NEW_LINE ([ ]* NEW_LINE)* ;*/
 
-NEW_LINE : '\r\n' ;
+/*NEW_LINE : '\r\n' ;*/
 
-WS : [ \t]+ -> skip ; // skip spaces, tabs, newlines ;
+WS : [ \r\n\t]+ -> skip ; // skip spaces, tabs, newlines ;
 
 COMMENT
     :   '/*' .*? '*/' -> skip

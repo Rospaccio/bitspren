@@ -6,20 +6,29 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public class SymbolTable
 {
-	private Hashtable<String, ParserRuleContext> table;
+	private Hashtable<String, SymbolTableEntry> table;
 
 	public SymbolTable()
 	{
 		this.table = new Hashtable<>();
 	}
 	
-	public ParserRuleContext lookup(String identifier)
+	public SymbolTableEntry lookup(String identifier)
 	{
 		return table.get(identifier);
 	}
 
-	public ParserRuleContext bind(String identifier, ParserRuleContext subtree)
+	public void bind(String identifier, SymbolTableEntry entry)
 	{
-		return table.put(identifier, subtree);
+		table.put(identifier, entry);
+	}
+	
+	public boolean isBound(String identifier){
+		return table.containsKey(identifier);
+	}
+	
+	public SemanticType peekType(String identifier)
+	{
+		return table.get(identifier).getType();
 	}
 }

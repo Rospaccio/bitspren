@@ -9,11 +9,15 @@ program
 
 terminatedStatement : statement STATEMENT_TERMINATOR ;
 
-statement : 'a' ;
+statement 
+			: 'a' 
+			| emptyStatement ;
+
+emptyStatement : STATEMENT_TERMINATOR ;
 
 STATEMENT_TERMINATOR
-					: ';' (NEW_LINE)*
-					| NEW_LINE (NEW_LINE)* ;
+					: ';' ([ ]* NEW_LINE)*
+					| NEW_LINE ([ ]* NEW_LINE)* ;
 
 NEW_LINE : '\r\n' ;
 

@@ -34,10 +34,10 @@ public class BitsprenParserTest
 + " function = 2*x                                      ;" + System.lineSeparator()
 + " function = 2 + 3 + x + clientY;                     " + System.lineSeparator()
 + " sum = x + sum(x - 1);                               " + System.lineSeparator()
-+ " sum = x ^ (f(12 - x * 2) + x ^ 2) - 13              " + System.lineSeparator()
++ " sum = x ^ (f(12 - x * 2) + x ^ 2) - 13 ;            " + System.lineSeparator()
 + " testFunction = 3 + 2 + 1 - 5 - 4 / 2 % 3 - (1 + 2 );" + System.lineSeparator()
-+ " d(89)                                               " + System.lineSeparator()
-+ " $d = d(x(x + 1))                                    " + System.lineSeparator()
++ " d(89)         ;                                     " + System.lineSeparator()
++ " $d = d(x(x + 1)) ;                                  " + System.lineSeparator()
 + "                                                     " + System.lineSeparator()
 + "                                                     " + System.lineSeparator()
 + " fibonacci = fibonacci(x - 1) + fibonacci(x - 2);    " + System.lineSeparator()
@@ -45,7 +45,7 @@ public class BitsprenParserTest
 + " decrease(2);                                        " + System.lineSeparator()
 + " decrease(x(s(1)));                                  " + System.lineSeparator()
 + "                                                     " + System.lineSeparator()
-+ " function = f(s, r)                                  " + System.lineSeparator()
++ " function = f(s, r);                                 " + System.lineSeparator()
 + "                                                     " + System.lineSeparator()
 + " quit();                                             "/**/;
 
@@ -76,9 +76,7 @@ public class BitsprenParserTest
 		{
 			assertProgramIsValid(file);
 		}
-	}
-
-	
+	}	
 	
 	private void assertProgramIsValid(File file) throws IOException
 	{
