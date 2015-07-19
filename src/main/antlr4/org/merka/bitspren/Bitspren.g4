@@ -29,6 +29,7 @@ basicFunction
 				| NUMBER_LITERAL									#NumberLiteralRule
 				| javaMethodCall									#JavaMethodCallRule
 				| '(' function ')' 									#EmbeddedFunctionRule
+				/*| unaryFunction										#UnaryFunctionRule*/
 				| functionApplication 								#FunctionApplicationRule;
 
 javaMethodCall : IDENTIFIER '.' functionApplication ;
@@ -43,6 +44,8 @@ formalParameters
 actualParameters : function (',' function)* ;
 
 independentVariable : IDENTIFIER;
+
+unaryFunction : '-' function ;
 
 NUMBER_LITERAL : NUMBER ('.'NUMBER)?;
 

@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.merka.bitspren.BitsprenParser.*;
 import org.merka.bitspren.BitsprenVisitor;
+import org.merka.bitspren.exception.EvaluationException;
 import org.merka.bitspren.exception.IdentifierNotBoundException;
 import org.merka.bitspren.type.EvaluationOutcome;
 import org.merka.bitspren.type.JavaType;
@@ -58,7 +59,8 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 		for (i = 0; i < childCount; i++)
 		{
 			ParseTree currentChild = node.getChild(i);
-			if(currentChild instanceof TerminalNode){
+			if (currentChild instanceof TerminalNode)
+			{
 				break;
 			}
 			currentEntry = currentChild.accept(this);
@@ -144,20 +146,21 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 	{
 		EvaluationOutcome leftOperand = ctx.polinomy(0).accept(this);
 		EvaluationOutcome rightOperand = ctx.polinomy(1).accept(this);
-		
-		if(BitsprenUtils.isBinaryOperationUndefined(leftOperand, rightOperand)){
+
+		if (BitsprenUtils.isBinaryOperationUndefined(leftOperand, rightOperand))
+		{
 			return new EvaluationOutcome(null, UndefinedType.instance());
 		}
-		
+
 		String operatorText = ctx.getChild(1).getText();
 		Number result = null;
 		if (operatorText.equals("+"))
 		{
-			result = (Double)leftOperand.getValue() + (Double)rightOperand.getValue();
+			result = (Double) leftOperand.getValue() + (Double) rightOperand.getValue();
 		} 
 		else
 		{
-			result = (Double)leftOperand.getValue() + (Double)rightOperand.getValue();
+			result = (Double) leftOperand.getValue() + (Double) rightOperand.getValue();
 		}
 		return new EvaluationOutcome(result, new JavaType(Double.class));
 	}
@@ -181,7 +184,8 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 			Double result = pow((Double) base.getValue(), (Double) exponent.getValue());
 			SemanticType javaType = new JavaType(Double.class);
 			outcome = new EvaluationOutcome(result, javaType);
-		} else
+		} 
+		else
 		{
 			outcome = new EvaluationOutcome(null, UndefinedType.instance());
 		}
@@ -191,8 +195,29 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 	@Override
 	public EvaluationOutcome visitMultiplicationRule(MultiplicationRuleContext ctx)
 	{
+		EvaluationOutcome leftOperand = ctx.polinomy(0).accept(this);
+		EvaluationOutcome rightOperand = ctx.polinomy(1).accept(this);
 
-		return null;
+		if (BitsprenUtils.isBinaryOperationUndefined(leftOperand, rightOperand))
+		{
+			return new EvaluationOutcome(null, UndefinedType.instance());
+		}
+
+		String operatorText = ctx.getChild(1).getText();
+		Number result = null;
+		if (operatorText.equals("*"))
+		{
+			result = (Double) leftOperand.getValue() * (Double) rightOperand.getValue();
+		} 
+		else if (operatorText.equals("%"))
+		{
+			result = (Double) leftOperand.getValue() % (Double) rightOperand.getValue();
+		} 
+		else
+		{
+			result = (Double) leftOperand.getValue() / (Double) rightOperand.getValue();
+		}
+		return new EvaluationOutcome(result, new JavaType(Double.class));
 	}
 
 	@Override
@@ -210,7 +235,8 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 		{
 			outcome = new EvaluationOutcome(Integer.parseInt(numberText), new JavaType(
 					Integer.class));
-		} else
+		} 
+		else
 		{
 			outcome = new EvaluationOutcome(Double.parseDouble(numberText), new JavaType(
 					Double.class));
@@ -251,7 +277,8 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 	{
 		String identifier = ctx.getChild(0).getText();
 		ParseTree functionParseTree = symbolTable.lookup(identifier).getParseTree();
-		if(functionParseTree == null){
+		if (functionParseTree == null)
+		{
 			throw new IdentifierNotBoundException("identifier");
 		}
 		return functionParseTree.accept(this);
@@ -272,7 +299,8 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 		if (entry == null)
 		{
 			return new EvaluationOutcome(null, UndefinedType.instance());
-		} else
+		} 
+		else
 		{
 			return entry.getParseTree().accept(this);
 		}
@@ -291,6 +319,39 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 	public EvaluationOutcome visitFormalParameters(FormalParametersContext ctx)
 	{
 		return new EvaluationOutcome(null, VoidType.instance());
+	}
+
+//	@Override
+//	public EvaluationOutcome visitUnaryFunctionRule(UnaryFunctionRuleContext ctx)
+//	{
+//		return ctx.unaryFunction().accept(this);
+//	}
+
+	@Override
+	public EvaluationOutcome visitUnaryFunction(UnaryFunctionContext ctx)
+	{
+		EvaluationOutcome outcome = ctx.function().accept(this);
+
+		if (outcome.getType() instanceof UndefinedType)
+		{
+			return new EvaluationOutcome(null, UndefinedType.instance());
+		}
+
+		if (outcome.getValue() instanceof Integer)
+		{
+			return new EvaluationOutcome(-1 * (Integer) outcome.getValue(), new JavaType(
+					Integer.class));
+		} 
+		else if (outcome.getValue() instanceof Double)
+		{
+			return new EvaluationOutcome(-1 * (Integer) outcome.getValue(), new JavaType(
+					Integer.class));
+		} 
+		else
+		{
+			throw new EvaluationException("Incompatible Java types: found "
+					+ outcome.getValue().getClass().getName());
+		}
 	}
 
 }

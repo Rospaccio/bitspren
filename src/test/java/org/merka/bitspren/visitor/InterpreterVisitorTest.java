@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.merka.bitspren.BitsprenErrorListener;
 import org.merka.bitspren.BitsprenParser;
@@ -24,7 +25,7 @@ import org.merka.bitspren.util.BitsprenUtils;
 public class InterpreterVisitorTest
 {
 	
-	public static final String singleLineTestProgram = "function = x^2";
+	public static final String singleLineTestProgram = "function = x^2;";
 
 	@Test
 	public void testInterpretSingleLineProgram() throws IOException
@@ -64,5 +65,16 @@ public class InterpreterVisitorTest
 		assertFalse(outcome.getType() == UndefinedType.instance());
 		assertTrue(outcome.getValue() instanceof Double);
 		assertEquals(5.0, (double)outcome.getValue(), 0.00000001);
+	}
+	
+	@Test
+	@Ignore
+	public void TestEval2() throws IOException{
+		EvaluationOutcome outcome = BitsprenUtils.eval("function = x - 3; x = 5; function (x);");
+		assertNotNull(outcome);
+		assertNotNull(outcome.getValue());
+		assertFalse(outcome.getType() == UndefinedType.instance());
+		assertTrue(outcome.getValue() instanceof Double);
+		assertEquals(2.0, (double)outcome.getValue(), 0.00000001);
 	}
 }

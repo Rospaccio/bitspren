@@ -30,7 +30,7 @@ public class BitsprenParserTest
 	private static Logger			logger						= LoggerFactory
 																		.getLogger(BitsprenParser.class);
 
-	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;" + System.lineSeparator()
+	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;" + System.lineSeparator()/*
 + " function = 2*x                                      ;" + System.lineSeparator()
 + " function = 2 + 3 + x + clientY;                     " + System.lineSeparator()
 + " sum = x + sum(x - 1);                               " + System.lineSeparator()
@@ -48,10 +48,6 @@ public class BitsprenParserTest
 + " function = f(s, r);                                 " + System.lineSeparator()
 + "                                                     " + System.lineSeparator()
 + " quit();                                             "/**/;
-
-	public static final String[]	validStrings				= { "testFunction = x",
-			"f = x;" + System.lineSeparator(), "f = g(d(x));", "f = x+3*2-4",
-			"f = x + 12 * g(3 + x)"							};
 
 	@Test
 	public void testParseHardcoded() throws IOException
