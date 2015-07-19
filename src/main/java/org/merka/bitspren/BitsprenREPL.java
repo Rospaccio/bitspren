@@ -24,6 +24,7 @@ public class BitsprenREPL
 				looping = !line.equals("stop");
 				BitsprenErrorListener errorListener = new BitsprenErrorListener(); 
 				BitsprenParser parser = BitsprenUtils.defaultParser(new StringReader(line), errorListener);
+				@SuppressWarnings("unused")
 				ProgramContext context = parser.program();
 				if(!errorListener.isFail())
 				{

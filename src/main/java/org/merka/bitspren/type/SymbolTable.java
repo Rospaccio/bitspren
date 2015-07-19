@@ -2,8 +2,6 @@ package org.merka.bitspren.type;
 
 import java.util.Hashtable;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class SymbolTable
 {
 	private Hashtable<String, SymbolTableEntry> table;
