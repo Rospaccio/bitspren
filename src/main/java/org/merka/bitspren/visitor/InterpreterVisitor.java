@@ -321,11 +321,11 @@ public class InterpreterVisitor implements BitsprenVisitor<EvaluationOutcome>
 		return new EvaluationOutcome(null, VoidType.instance());
 	}
 
-//	@Override
-//	public EvaluationOutcome visitUnaryFunctionRule(UnaryFunctionRuleContext ctx)
-//	{
-//		return ctx.unaryFunction().accept(this);
-//	}
+	@Override
+	public EvaluationOutcome visitUnaryFunctionRule(UnaryFunctionRuleContext ctx)
+	{
+		return ctx.unaryFunction().accept(this);
+	}
 
 	@Override
 	public EvaluationOutcome visitUnaryFunction(UnaryFunctionContext ctx)

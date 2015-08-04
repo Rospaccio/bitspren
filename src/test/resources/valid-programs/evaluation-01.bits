@@ -1,0 +1,3 @@
+addFive = x + 5;
+x = 5;
+result = addFive(1);

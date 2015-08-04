@@ -18,4 +18,5 @@ decrease(x(s(1)));
 
 function = f(s, r);
 
+addFive = 5 + x;
 quit();

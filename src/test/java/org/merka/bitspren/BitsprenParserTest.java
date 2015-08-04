@@ -30,8 +30,8 @@ public class BitsprenParserTest
 	private static Logger			logger						= LoggerFactory
 																		.getLogger(BitsprenParser.class);
 
-	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;" + System.lineSeparator()/*
-+ " function = 2*x                                      ;" + System.lineSeparator()
+	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;g=y;d(89);" + System.lineSeparator()/*
++ "function = 2*x                                      ;" + System.lineSeparator()
 + " function = 2 + 3 + x + clientY;                     " + System.lineSeparator()
 + " sum = x + sum(x - 1);                               " + System.lineSeparator()
 + " sum = x ^ (f(12 - x * 2) + x ^ 2) - 13 ;            " + System.lineSeparator()
@@ -86,7 +86,7 @@ public class BitsprenParserTest
 		assertNotNull(rootNode);
 		if (listener.isFail())
 		{
-			logger.error("Parse failed");
+			logger.error("Parsing failed: failing file: " + file.getName());
 			if (listener.getLineNumber() != 0 && listener.getMessage() != null)
 			{
 				logger.error("line: " + listener.getLineNumber() + "; position: "

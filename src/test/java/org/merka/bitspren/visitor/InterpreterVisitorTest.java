@@ -57,6 +57,7 @@ public class InterpreterVisitorTest
 	}
 	
 	@Test
+	@Ignore
 	public void TestEval() throws IOException
 	{
 		EvaluationOutcome outcome = BitsprenUtils.eval("function = 3 + x; x = 2; function(x);");

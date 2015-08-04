@@ -25,11 +25,11 @@ polinomy
 		| basicFunction							#BasicFunctionRule ;
 
 basicFunction 
-				: independentVariable 								#IndependentVariableRule
+				: unaryFunction										#UnaryFunctionRule
+				| independentVariable 								#IndependentVariableRule
 				| NUMBER_LITERAL									#NumberLiteralRule
 				| javaMethodCall									#JavaMethodCallRule
 				| '(' function ')' 									#EmbeddedFunctionRule
-				/*| unaryFunction										#UnaryFunctionRule*/
 				| functionApplication 								#FunctionApplicationRule;
 
 javaMethodCall : IDENTIFIER '.' functionApplication ;

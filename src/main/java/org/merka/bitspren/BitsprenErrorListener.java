@@ -72,23 +72,23 @@ public class BitsprenErrorListener implements ANTLRErrorListener
 	public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2, int arg3, int arg4,
 			ATNConfigSet arg5)
 	{
-		setFail(true);
+		//setFail(true);
 	}
 
 	@Override
 	public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4,
 			ATNConfigSet arg5)
 	{
-		setErrorDetails(arg2, arg3, "");
-		setFail(true);
+		//setErrorDetails(arg2, arg3, "");
+		//setFail(true);
 	}
 
 	@Override
 	public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3, boolean arg4,
 			BitSet arg5, ATNConfigSet arg6)
 	{
-		logger.debug(arg6.getAlts().toString());
-		setFail(true);
+		//logger.debug(arg6.getAlts().toString());
+		//setFail(true);
 	}
 	
 	private void setErrorDetails(int line, int position, String message)
