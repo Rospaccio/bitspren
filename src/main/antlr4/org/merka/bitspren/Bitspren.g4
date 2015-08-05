@@ -12,46 +12,46 @@ lastStatement : statement ;
 statement 
 			: functionDefinition 	#FunctionDefinitionStatementRule
 			| functionApplication	#FunctionApplicationStatementRule ;
+			
+functionDefinition : DEF '(' formalParameterList ')' DEF_OPERATOR functionBody ;
 
-functionDefinition 
-					: IDENTIFIER /*formalParameters*/ FUNCTION_DEFINTION_OP function ;
+formalParameterList : IDENTIFIER (',' IDENTIFIER)* ;
 
-function : polinomy ;
+functionBody : polinomy ;
 
-polinomy
-		: <assoc=right> polinomy ('^') polinomy	#ExponentialRule
-		| polinomy ('*' | '/' | '%') polinomy  	#MultiplicationRule
-		| polinomy ('+' | '-') polinomy			#SumRule
-		| basicFunction							#BasicFunctionRule ;
+polinomy : <assoc=right> polinomy ('^') polinomy	#ExponentialRule
+		 | polinomy ('*' | '/' | '%') polinomy  	#MultiplicationRule
+         | polinomy ('+' | '-') polinomy			#SumRule
+		 | basicFunction							#BasicFunctionRule ;
 
-basicFunction 
-				: unaryFunction										#UnaryFunctionRule
-				| independentVariable 								#IndependentVariableRule
+basicFunction   : unaryFunction										#UnaryFunctionRule
+				| variable			 								#VariableRule
 				| NUMBER_LITERAL									#NumberLiteralRule
 				| javaMethodCall									#JavaMethodCallRule
-				| '(' function ')' 									#EmbeddedFunctionRule
+				| '(' polinomy ')' 									#EmbeddedFunctionRule
 				| functionApplication 								#FunctionApplicationRule;
 
 javaMethodCall : IDENTIFIER '.' functionApplication ;
 
-functionApplication
-					: IDENTIFIER '(' actualParameters? ')' ;
+functionApplication : IDENTIFIER '(' actualParameters? ')' ;
 
-formalParameters 
-					: LEFT_BRACKET IDENTIFIER (',' IDENTIFIER)* RIGHT_BRACKET 
-					| LEFT_BRACKET RIGHT_BRACKET;
+actualParameters : polinomy (',' polinomy)* ;
 
-actualParameters : function (',' function)* ;
-
-independentVariable : IDENTIFIER;
-
-unaryFunction : '-' function ;
+variable : IDENTIFIER ;
 
 NUMBER_LITERAL : NUMBER ('.'NUMBER)?;
 
+unaryFunction : '-' polinomy ;
+
 NUMBER : [0-9]+ ;
 
-IDENTIFIER : IDENTIFIER_START_CHAR IDENTIFIER_FOLLOWING_CHAR*;
+IDENTIFIER : IDENTIFIER_START_CHAR    IDENTIFIER_FOLLOWING_CHAR*;
+
+/* KEYWORDS and symbols*/
+DEF : 'def' ;
+DEF_OPERATOR : ':' ;
+COMPONENTS_SEPARATOR : ',' ;
+/* KEYWORDS and symbols - end */
 
 LEFT_BRACKET : '(' ;
 RIGHT_BRACKET : ')' ;

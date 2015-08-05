@@ -30,7 +30,7 @@ public class BitsprenParserTest
 	private static Logger			logger						= LoggerFactory
 																		.getLogger(BitsprenParser.class);
 
-	public static final String		HARCODED_DEFAULT_PROGRAM	= "_f = x;g=y;d(89);" + System.lineSeparator()/*
+	public static final String		HARCODED_DEFAULT_PROGRAM	= "function(x) : x" + System.lineSeparator()/*
 + "function = 2*x                                      ;" + System.lineSeparator()
 + " function = 2 + 3 + x + clientY;                     " + System.lineSeparator()
 + " sum = x + sum(x - 1);                               " + System.lineSeparator()
@@ -64,6 +64,7 @@ public class BitsprenParserTest
 	}
 
 	@Test
+	@Ignore
 	public void TestFromFile() throws URISyntaxException, IOException
 	{
 		File sourceDir = new File(getClass().getResource("/valid-programs").toURI());

@@ -28,6 +28,7 @@ public class InterpreterVisitorTest
 	public static final String singleLineTestProgram = "function = x^2;";
 
 	@Test
+	@Ignore
 	public void testInterpretSingleLineProgram() throws IOException
 	{
 		BitsprenErrorListener listener = new BitsprenErrorListener();

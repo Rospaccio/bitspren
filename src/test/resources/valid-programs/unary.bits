@@ -1,3 +1,4 @@
+/*
 f=x;
 function = -x;
 function = - x;
@@ -6,3 +7,4 @@ function = -1 * x;
 function = -1 * -x;
 function= - 1 * (-x) - x - (-x);
 function = -Math.sin(3);
+*/
