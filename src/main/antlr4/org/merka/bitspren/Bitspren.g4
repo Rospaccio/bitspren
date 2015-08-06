@@ -13,7 +13,7 @@ statement
 			: functionDefinition 	#FunctionDefinitionStatementRule
 			| functionApplication	#FunctionApplicationStatementRule ;
 			
-functionDefinition : DEF '(' formalParameterList ')' DEF_OPERATOR functionBody ;
+functionDefinition : def IDENTIFIER '(' formalParameterList ')' DEF_OPERATOR functionBody ;
 
 formalParameterList : IDENTIFIER (',' IDENTIFIER)* ;
 
@@ -48,7 +48,7 @@ NUMBER : [0-9]+ ;
 IDENTIFIER : IDENTIFIER_START_CHAR    IDENTIFIER_FOLLOWING_CHAR*;
 
 /* KEYWORDS and symbols*/
-DEF : 'def' ;
+def : 'def' ;
 DEF_OPERATOR : ':' ;
 COMPONENTS_SEPARATOR : ',' ;
 /* KEYWORDS and symbols - end */
