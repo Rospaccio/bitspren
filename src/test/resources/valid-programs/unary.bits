@@ -1,3 +1,4 @@
+def f(x) : -x;
 /*
 f=x;
 function = -x;

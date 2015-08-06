@@ -1,13 +1,15 @@
-/*
-f=2  ;  
+def function(x) : x + 1;
+
+def f() : 2  ;  
 
  	
 
   
-g=4;  
+def g():4;  
 
   
    
     
-    fr=5;
-*/
+    def fr(x): 5 ;
+    
+    

@@ -11,9 +11,10 @@ lastStatement : statement ;
 
 statement 
 			: functionDefinition 	#FunctionDefinitionStatementRule
+			| assignment			#AssignmentRule
 			| functionApplication	#FunctionApplicationStatementRule ;
 			
-functionDefinition : def IDENTIFIER '(' formalParameterList ')' DEF_OPERATOR functionBody ;
+functionDefinition : def IDENTIFIER '(' (formalParameterList)? ')' ':' functionBody ;
 
 formalParameterList : IDENTIFIER (',' IDENTIFIER)* ;
 
@@ -27,21 +28,26 @@ polinomy : <assoc=right> polinomy ('^') polinomy	#ExponentialRule
 basicFunction   : unaryFunction										#UnaryFunctionRule
 				| variable			 								#VariableRule
 				| NUMBER_LITERAL									#NumberLiteralRule
+				| STRING_LITERAL									#StringLiteralRule
 				| javaMethodCall									#JavaMethodCallRule
 				| '(' polinomy ')' 									#EmbeddedFunctionRule
 				| functionApplication 								#FunctionApplicationRule;
 
 javaMethodCall : IDENTIFIER '.' functionApplication ;
 
+assignment : IDENTIFIER ':' statement ;
+
 functionApplication : IDENTIFIER '(' actualParameters? ')' ;
 
 actualParameters : polinomy (',' polinomy)* ;
 
+unaryFunction : '-' polinomy ;
+
 variable : IDENTIFIER ;
 
-NUMBER_LITERAL : NUMBER ('.'NUMBER)?;
+STRING_LITERAL : '"' .*? '"' ;
 
-unaryFunction : '-' polinomy ;
+NUMBER_LITERAL : NUMBER ('.'NUMBER)?;
 
 NUMBER : [0-9]+ ;
 

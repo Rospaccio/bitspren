@@ -1,3 +1,4 @@
+def f (x) : x*2;
 /*
 f=inc(x) + exp(e ^ 3);
 g=f(x) + 1;    

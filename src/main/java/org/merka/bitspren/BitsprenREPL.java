@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.ConsoleErrorListener;
+import org.antlr.v4.runtime.DiagnosticErrorListener;
 import org.merka.bitspren.BitsprenParser.ProgramContext;
-import org.merka.bitspren.type.EvaluationOutcome;
 import org.merka.bitspren.util.BitsprenUtils;
-import org.merka.bitspren.visitor.InterpreterVisitor;
 
 public class BitsprenREPL
 {
@@ -21,8 +20,8 @@ public class BitsprenREPL
 		try
 		{
 			System.out.println("Bitspren REPL starting..." + System.lineSeparator());
-			//recognizementREPL();
-			evaluationREPL();
+			recognizementREPL();
+			//evaluationREPL();
 		}
 		catch (Exception e)
 		{
@@ -31,22 +30,22 @@ public class BitsprenREPL
 		}
 	}
 
-	public static void evaluationREPL() throws IOException{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		InterpreterVisitor interpreter = new InterpreterVisitor();
-		boolean looping = true;
-		
-		do
-		{
-			System.out.print(System.lineSeparator() + PROMPT);
-			String line = reader.readLine();
-			looping = !line.equals("quit");
-			ParseTree parseTree = BitsprenUtils.parse(line);
-			EvaluationOutcome outcome = interpreter.visit(parseTree);
-			System.out.println(outcome.getValue() + "[" + outcome.getType() + "]");
-		}
-		while(looping);
-	}
+//	public static void evaluationREPL() throws IOException{
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//		InterpreterVisitor interpreter = new InterpreterVisitor();
+//		boolean looping = true;
+//		
+//		do
+//		{
+//			System.out.print(System.lineSeparator() + PROMPT);
+//			String line = reader.readLine();
+//			looping = !line.equals("quit");
+//			ParseTree parseTree = BitsprenUtils.parse(line);
+//			EvaluationOutcome outcome = interpreter.visit(parseTree);
+//			System.out.println(outcome.getValue() + "[" + outcome.getType() + "]");
+//		}
+//		while(looping);
+//	}
 	
 	public static void recognizementREPL() throws IOException{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -56,8 +55,9 @@ public class BitsprenREPL
 			System.out.print(System.lineSeparator() + PROMPT);
 			String line = reader.readLine();
 			looping = !line.equals("quit");
-			BitsprenErrorListener errorListener = new BitsprenErrorListener(); 
+			BitsprenErrorListener errorListener = new BitsprenErrorListener();
 			BitsprenParser parser = BitsprenUtils.defaultParser(new StringReader(line), errorListener);
+			parser.addErrorListener(new ConsoleErrorListener());
 			@SuppressWarnings("unused")
 			ProgramContext context = parser.program();
 			if(!errorListener.isFail())
@@ -66,7 +66,7 @@ public class BitsprenREPL
 			}
 			else
 			{
-				System.out.println("Not cool man, not cool...");
+				System.out.println("error...");
 			}
 			
 		} while (looping);

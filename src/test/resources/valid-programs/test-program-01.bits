@@ -1,4 +1,4 @@
-def function x : x;
+def function( x ) : x;
 
 /*
 def function(x, y) : x + y;

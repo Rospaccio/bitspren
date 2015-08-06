@@ -1,0 +1,7 @@
+def add(a, b) : a + b;
+def add5(x) : add(x, 5);
+add5(1);
+reference : add5(2);
+def printHello() : print("Hello");
+printHello();
+def function(x) : x; def inner(param1) : 1 + function(param1);

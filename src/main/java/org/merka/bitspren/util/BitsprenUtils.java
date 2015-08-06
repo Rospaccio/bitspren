@@ -15,7 +15,6 @@ import org.merka.bitspren.BitsprenLexer;
 import org.merka.bitspren.BitsprenParser;
 import org.merka.bitspren.type.EvaluationOutcome;
 import org.merka.bitspren.type.UndefinedType;
-import org.merka.bitspren.visitor.InterpreterVisitor;
 
 public class BitsprenUtils
 {
@@ -45,12 +44,12 @@ public class BitsprenUtils
 		return parser.program();
 	}
 
-	public static EvaluationOutcome eval(String input) throws IOException
-	{
-		InterpreterVisitor visitor = new InterpreterVisitor();
-		EvaluationOutcome outcome = visitor.visit(parse(input));
-		return outcome;
-	}
+//	public static EvaluationOutcome eval(String input) throws IOException
+//	{
+//		InterpreterVisitor visitor = new InterpreterVisitor();
+//		EvaluationOutcome outcome = visitor.visit(parse(input));
+//		return outcome;
+//	}
 
 	/**
 	 * Tells if the type of a binary operation between {@code leftOperand} and
